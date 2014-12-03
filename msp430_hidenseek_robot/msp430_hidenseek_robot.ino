@@ -38,9 +38,9 @@
 
 #define LEFT_SERVO BIT2
 #define RIGHT_SERVO BIT4
-#define SERVO_DIR_STOP 1500
-#define SERVO_DIR_RIGHT 1000
-#define SERVO_DIR_LEFT 2000
+#define SERVO_DIR_STOP 1510
+#define SERVO_DIR_LEFT 1410
+#define SERVO_DIR_RIGHT 1610
 
 #define I2C_SCL BIT6
 #define I2C_SDA BIT7
@@ -162,11 +162,11 @@ void servo_init() {
 
 void set_direction(char dir) {
   if (dir == SERVO_LEFT) {
-    TA1CCR1 = SERVO_DIR_STOP;                  // (2.2) Duty Cycle
-    TA1CCR2 = SERVO_DIR_RIGHT;                 // (2.4) Duty Cycle
-  } else if (dir == SERVO_RIGHT) {
     TA1CCR1 = SERVO_DIR_LEFT;                  // (2.2) Duty Cycle
     TA1CCR2 = SERVO_DIR_STOP;                  // (2.4) Duty Cycle
+  } else if (dir == SERVO_RIGHT) {
+    TA1CCR1 = SERVO_DIR_STOP;                  // (2.2) Duty Cycle
+    TA1CCR2 = SERVO_DIR_RIGHT;                 // (2.4) Duty Cycle
   } else if (dir == SERVO_FORWARD) {
     TA1CCR1 = SERVO_DIR_LEFT;                  // (2.2) Duty Cycle
     TA1CCR2 = SERVO_DIR_RIGHT;                 // (2.4) Duty Cycle
@@ -254,6 +254,8 @@ void poll_sensors() {
   if (left || front || right) {
     if (!sensor_hit) {
       P1OUT |= BIT0;
+      TA1CCR1 = SERVO_DIR_STOP;                  // (2.2) Duty Cycle
+      TA1CCR2 = SERVO_DIR_STOP;                  // (2.4) Duty Cycle
       char out[3];
       sprintf(out, "%c%c%c", left ? '1' : '0', front ? '1' : '0', right ? '1' : '0');
       uart_puts(out);

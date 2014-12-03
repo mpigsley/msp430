@@ -2,11 +2,12 @@
 
 #define TRUE 1
 #define FALSE 0
-#define LEFT_SERVO BIT2
-#define RIGHT_SERVO BIT4
-#define SERVO_DIR_STOP 1500
-#define SERVO_DIR_RIGHT 1000
-#define SERVO_DIR_LEFT 2000
+
+#define RIGHT_SERVO BIT2
+#define LEFT_SERVO BIT4
+#define SERVO_DIR_STOP 1510
+#define SERVO_DIR_LEFT 1410
+#define SERVO_DIR_RIGHT 1610
 
 void main_100ms_routine();
 void main_1s_routine();
@@ -33,13 +34,13 @@ void servo_init() {
 }
 
 void bot_left() {
-    TA1CCR1 = SERVO_DIR_STOP;                  // (2.2) Duty Cycle
-    TA1CCR2 = SERVO_DIR_RIGHT;                 // (2.4) Duty Cycle
+    TA1CCR1 = SERVO_DIR_LEFT;                  // (2.2) Duty Cycle
+    TA1CCR2 = SERVO_DIR_STOP;                  // (2.4) Duty Cycle
 }
 
 void bot_right() {
-    TA1CCR1 = SERVO_DIR_LEFT;                  // (2.2) Duty Cycle
-    TA1CCR2 = SERVO_DIR_STOP;                  // (2.4) Duty Cycle
+    TA1CCR1 = SERVO_DIR_STOP;                  // (2.2) Duty Cycle
+    TA1CCR2 = SERVO_DIR_RIGHT;                 // (2.4) Duty Cycle
 }
 
 void bot_forward() {
@@ -58,7 +59,7 @@ void main_100ms_routine() {
 }
 
 void main_1s_routine() {
-  bot_forward();
+  
 }
 
 int main(void) {
